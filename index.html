@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atarefado</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <div class="brand"><svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#8a5a3c"/><rect x="5" y="5" width="54" height="54" rx="12" fill="none" stroke="#d9b48c" stroke-width="1.5" stroke-dasharray="3 3"/><rect x="17" y="13" width="30" height="38" rx="5" fill="#f6ead8"/><rect x="43" y="8" width="7" height="48" rx="3" fill="#c8996d"/><path d="M22 30l5 5 9-10" fill="none" stroke="#8a5a3c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 44h16" stroke="#d8c2a6" stroke-width="3" stroke-linecap="round"/></svg><span>Atarefado</span></div>
+  <p class="lbl">Minhas listas</p>
+  <nav id="cats"></nav>
+  <button id="newBtn" class="plain">+ Nova lista</button>
+  <form id="catForm" hidden><input id="catIn" placeholder="Nome da lista" maxlength="20" aria-label="Nome da nova lista"></form>
+</aside>
+<main>
+  <header class="hello"><div class="date"><span id="mon"></span><b id="dnum"></b></div><div><h1 id="greet"></h1><p id="sub"></p><p id="when" class="mut"></p></div></header>
+  <form id="quick" class="quick" novalidate><input id="qt" maxlength="80" placeholder="Adicionar tarefa" aria-label="Adicionar tarefa"><button type="button" id="more" class="ib sm" aria-label="Mais detalhes"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button><button class="btn">Adicionar</button></form>
+  <small id="qe"></small>
+  <input id="q" class="search" type="search" placeholder="Pesquisar tarefas" aria-label="Pesquisar tarefas">
+  <ul id="list"></ul>
+</main>
+<aside class="right">
+  <div class="icons">
+    <button id="themeBtn" class="ib" aria-label="Mudar tema"><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M5 19l1.5-1.5M17.5 6.5L19 5"/></svg><svg class="moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg></button>
+    <button id="setBtn" class="ib" aria-label="Configurações"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" class="f"/><circle cx="15" cy="12" r="2" class="f"/><circle cx="8" cy="18" r="2" class="f"/></svg></button>
+    <button id="profBtn" class="ib" aria-label="Perfil"><img id="pimg" alt="" hidden><svg id="pico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+  </div>
+  <div class="calh"><button id="prev" class="ib sm" aria-label="Mês anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><b id="mt"></b><button id="next" class="ib sm" aria-label="Próximo mês"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>
+  <div id="wk" class="wk"></div><div id="days" class="days"></div>
+  <button id="showAll" class="btn soft wide">Mostrar tudo</button>
+  <h3>Status</h3><div id="filters" class="chips"></div>
+  <h3>Ordenar por</h3><div id="sorts" class="chips"></div>
+</aside>
+</div>
+
+<dialog id="taskDlg"><form id="taskForm" novalidate>
+  <h2 id="taskTitle">Nova tarefa</h2>
+  <label>Título<input id="fTitle" maxlength="80" placeholder="Ex.: Entregar trabalho de redes"><small id="eTitle"></small></label>
+  <label>Descrição<textarea id="fDesc" rows="3" placeholder="Detalhes (opcional)"></textarea></label>
+  <div class="row"><label>Data prevista<input id="fDate" type="date"><small id="eDate"></small></label><label>Prioridade<select id="fPri"><option value="low">Baixa</option><option value="med">Média</option><option value="high">Alta</option></select></label></div>
+  <div class="row"><label>Status<select id="fStatus"><option value="pending">Pendente</option><option value="doing">Em andamento</option><option value="done">Concluída</option></select></label><label>Lista<select id="fCat"></select></label></div>
+  <div class="foot"><button type="button" class="btn soft" data-close>Cancelar</button><button class="btn">Salvar tarefa</button></div>
+</form></dialog>
+
+<dialog id="delDlg"><form method="dialog"><h2>Excluir tarefa?</h2><p id="delTxt" class="mut"></p><div class="foot"><button class="btn soft" value="no">Cancelar</button><button class="btn danger" value="yes">Excluir</button></div></form></dialog>
+
+<dialog id="setDlg"><form method="dialog"><h2>Configurações</h2>
+  <div class="set">Tema<select id="sTheme"><option value="auto">Automático</option><option value="light">Claro</option><option value="dark">Escuro</option></select></div>
+  <div class="set">Cor de destaque<div id="sAcc" class="sw"><button type="button" data-ac="couro" style="background:#c8996d" aria-label="Couro"></button><button type="button" data-ac="mel" style="background:#e0bd72" aria-label="Mel"></button><button type="button" data-ac="rose" style="background:#d9a39d" aria-label="Rosé"></button><button type="button" data-ac="salvia" style="background:#a9bc94" aria-label="Sálvia"></button></div></div>
+  <div class="set">Tamanho do texto<select id="sSize"><option value="small">Pequeno</option><option value="normal">Médio</option><option value="large">Grande</option></select></div>
+  <div class="set">Semana começa em<select id="sWeek"><option value="0">Domingo</option><option value="1">Segunda</option></select></div>
+  <div class="set">Relógio de 24 horas<input type="checkbox" id="sH24"></div>
+  <div class="set">Ocultar tarefas concluídas<input type="checkbox" id="sHide"></div>
+  <div class="set">Animações<input type="checkbox" id="sAnim"></div>
+  <div class="set">Foto de perfil<button type="button" id="rmPhoto" class="btn soft">Remover foto</button></div>
+  <div class="set"><button type="button" id="reset" class="btn danger">Apagar todos os dados</button></div>
+  <div class="foot"><button class="btn">Fechar</button></div></form></dialog>
+
+<dialog id="profDlg"><form id="profForm"><h2>Perfil</h2>
+  <label class="avatar" id="avatar" tabindex="0" title="Trocar foto"><img id="avImg" alt="Sua foto" hidden><span id="avLet"></span><em>Trocar foto</em><input id="avFile" type="file" accept="image/*" hidden></label>
+  <label>Seu nome<input id="pName" maxlength="30"></label>
+  <p id="stats" class="mut"></p>
+  <div class="foot"><button type="button" class="btn soft" data-close>Cancelar</button><button class="btn">Salvar</button></div></form></dialog>
+<script src="script.js"></script>
+</body>
+</html>
